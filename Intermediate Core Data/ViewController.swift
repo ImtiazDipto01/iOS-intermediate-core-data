@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,10 +16,16 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
+        // setting some basic stuff for tableView
+        tableView.backgroundColor = .darkBlue
+        //tableView.separatorStyle = .none
+        tableView.separatorColor = .white
+        tableView.tableFooterView = UIView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
-        let lightRed = UIColor.getColor(red: 247, green: 66, blue: 82)
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: lightRed, tintColor: lightRed, title: "Companies", preferredLargeTitle: true)
+        // setting up Navigation Bar and Bar Item
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
+        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .lightRed, title: "Companies", preferredLargeTitle: true)
     }
     
     
@@ -27,11 +33,56 @@ class ViewController: UIViewController {
         print("Something going to happen")
     }
     
+    /* TableView Setup Start */
+    
+    /**
+     * Returning a UIView, If you need a header of your each section
+     */
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .lightBlue
+        return view
+    }
+    
+    /**
+     * Returning CGFloat value, for specifing a height of the header.
+     */
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    /**
+     * TableView 2 :  Returing the cell, which will be going to show in the UI for this tableView
+     */
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        
+        cell.backgroundColor = .tealColor
+        cell.textLabel?.text = "The Company Name"
+        cell.textLabel?.textColor = .white
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        return cell
+    }
+    
+    /**
+     * TableView 1 :  Returing how many cells wlll be available into tableView
+     */
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 8
+    }
+    
+    /* TableView Setup End */
+    
 }
 
 
 extension UIViewController {
     
+    /**
+     * Here, we're configuring navigationBar
+     * Tip: Before configuring navigation bar, Please setup the Navigation Controller into [SceneDelegate]
+     */
     func configureNavigationBar(largeTitleColor: UIColor, backgoundColor: UIColor, tintColor: UIColor, title: String, preferredLargeTitle: Bool) {
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
@@ -59,11 +110,4 @@ extension UIViewController {
     }
 }
 
-
-extension UIColor{
-    
-    static func getColor(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
-        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
-    }
-}
 

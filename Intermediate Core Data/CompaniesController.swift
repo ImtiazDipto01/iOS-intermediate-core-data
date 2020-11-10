@@ -8,7 +8,15 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class CompaniesController: UITableViewController {
+    
+    let companies = [
+        Company(name: "Facebook", date: Date()),
+        Company(name: "Google", date: Date()),
+        Company(name: "Apple", date: Date()),
+        Company(name: "Amazon", date: Date()),
+        Company(name: "Alibaba", date: Date())
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +38,14 @@ class ViewController: UITableViewController {
     
     
     @objc func handleAddCompany() {
-        print("Something going to happen")
+        
+        let createCompanyController = CreateCompanyController()
+        
+        let navController = CustomNavigationController(rootViewController: createCompanyController)
+        navController.modalPresentationStyle = .fullScreen
+        
+        present(navController, animated: true, completion: nil)
+        
     }
     
     /* TableView Setup Start */
@@ -55,10 +70,11 @@ class ViewController: UITableViewController {
      * TableView 2 :  Returing the cell, which will be going to show in the UI for this tableView
      */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let company = companies[indexPath.row]
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         cell.backgroundColor = .tealColor
-        cell.textLabel?.text = "The Company Name"
+        cell.textLabel?.text = company.name
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
@@ -69,45 +85,9 @@ class ViewController: UITableViewController {
      * TableView 1 :  Returing how many cells wlll be available into tableView
      */
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return companies.count
     }
     
     /* TableView Setup End */
     
 }
-
-
-extension UIViewController {
-    
-    /**
-     * Here, we're configuring navigationBar
-     * Tip: Before configuring navigation bar, Please setup the Navigation Controller into [SceneDelegate]
-     */
-    func configureNavigationBar(largeTitleColor: UIColor, backgoundColor: UIColor, tintColor: UIColor, title: String, preferredLargeTitle: Bool) {
-        if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: largeTitleColor]
-            navBarAppearance.titleTextAttributes = [.foregroundColor: largeTitleColor]
-            navBarAppearance.backgroundColor = backgoundColor
-
-            navigationController?.navigationBar.standardAppearance = navBarAppearance
-            navigationController?.navigationBar.compactAppearance = navBarAppearance
-            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-
-            navigationController?.navigationBar.prefersLargeTitles = preferredLargeTitle
-            navigationController?.navigationBar.isTranslucent = false
-            navigationController?.navigationBar.tintColor = tintColor
-            navigationItem.title = title
-
-        } else {
-            // Fallback on earlier versions
-            navigationController?.navigationBar.isTranslucent = false
-            navigationController?.navigationBar.barTintColor = tintColor
-            navigationController?.navigationBar.prefersLargeTitles = preferredLargeTitle
-            navigationItem.title = title
-        }
-    }
-}
-
-

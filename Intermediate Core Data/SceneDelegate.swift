@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
      * Here, we're configuring Navigation Controller to ViewController
      */
     func configureNavigationController() -> UINavigationController {
-        let companiesController = ViewController()
+        let companiesController = CompaniesController()
         let navController = CustomNavigationController(rootViewController: companiesController)
         return navController
     }

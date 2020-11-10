@@ -19,5 +19,6 @@ extension UIColor {
     static let darkBlue = getColor(red: 9, green: 45, blue: 64)
     static let tealColor = getColor(red: 48, green: 164, blue: 182)
     static let lightBlue = getColor(red: 218, green: 235, blue: 243)
+    static let pupleTest = getColor(red: 101, green: 31, blue: 255)
     
 }

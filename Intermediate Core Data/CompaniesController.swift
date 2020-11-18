@@ -7,20 +7,46 @@
 //
 
 import UIKit
+import CoreData
+import Foundation
 
-class CompaniesController: UITableViewController {
+class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
     
-    let companies = [
-        Company(name: "Facebook", date: Date()),
-        Company(name: "Google", date: Date()),
-        Company(name: "Apple", date: Date()),
-        Company(name: "Amazon", date: Date()),
-        Company(name: "Alibaba", date: Date())
-    ]
+    func didAddCompany(company: Company) {
+        
+        companies.append(company)
+        let newIndexPath = IndexPath(row: companies.count - 1, section: 0)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+    }
+    
+    func fetchCompanies(){
+        
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")
+        
+        do{
+            let companies = try context.fetch(fetchRequest)
+            
+            companies.forEach { (company) in
+                print(company.name ?? "")
+            }
+            
+            self.companies = companies
+            self.tableView.reloadData()
+            
+        }catch let fetchErr {
+            print("Failed to fetch Companies:", fetchErr)
+        }
+        
+    }
+    
+    var companies = [Company]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        fetchCompanies()
         
         view.backgroundColor = .white
         
@@ -33,7 +59,7 @@ class CompaniesController: UITableViewController {
         
         // setting up Navigation Bar and Bar Item
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .lightRed, title: "Companies", preferredLargeTitle: true)
+        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Companies", preferredLargeTitle: true)
     }
     
     
@@ -43,6 +69,8 @@ class CompaniesController: UITableViewController {
         
         let navController = CustomNavigationController(rootViewController: createCompanyController)
         navController.modalPresentationStyle = .fullScreen
+        
+        createCompanyController.createCompanyDelegate = self
         
         present(navController, animated: true, completion: nil)
         

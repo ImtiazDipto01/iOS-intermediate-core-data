@@ -95,6 +95,38 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     }
     
     /**
+     * Setting up swipe actions and Returting those swipe action items
+     */
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteItem = UIContextualAction(style: .destructive, title: "Delete") { (action, view, boolean) in
+            let company = self.companies[indexPath.row]
+            print("Attemping to deleting company : \(company.name ?? "")")
+            
+            // remove the company from tableview
+            self.companies.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            // delete the company from coredata
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            context.delete(company)
+            do{
+                try context.save()
+            } catch let deleteErr {
+                print("Failed to Delete Companies:", deleteErr)
+            }
+        }
+        
+        let editItem = UIContextualAction(style: .normal , title: "Edit") { (action, view, boolean) in
+            let company = self.companies[indexPath.row]
+            print("Attemping to deleting company : \(company.name ?? "")")
+        }
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
+        return swipeActions
+    }
+    
+    /**
      * TableView 2 :  Returing the cell, which will be going to show in the UI for this tableView
      */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

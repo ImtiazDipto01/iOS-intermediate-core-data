@@ -12,11 +12,39 @@ import Foundation
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
     
-    func didAddCompany(company: Company) {
+    var companies = [Company]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
         
+        fetchCompanies()
+        
+        view.backgroundColor = .white
+        
+        // setting some basic stuff for tableView
+        tableView.backgroundColor = .darkBlue
+        //tableView.separatorStyle = .none
+        tableView.separatorColor = .white
+        tableView.tableFooterView = UIView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        
+        // setting up Navigation Bar and Bar Item
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset))
+        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Companies", preferredLargeTitle: true)
+    }
+    
+    func didAddCompany(company: Company) {
         companies.append(company)
         let newIndexPath = IndexPath(row: companies.count - 1, section: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
+    }
+    
+    func didEditCompany(company: Company) {
+        let row = companies.firstIndex(of: company)
+        let reloadIndexPath = IndexPath(row: row!, section: 0)
+        tableView.reloadRows(at: [reloadIndexPath], with: .middle)
     }
     
     func fetchCompanies(){
@@ -39,42 +67,48 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         }
         
     }
-    
-    var companies = [Company]()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    @objc private func handleReset() {
+        print("Delete All The Core data objects")
         
-        fetchCompanies()
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let batchDeleteReq = NSBatchDeleteRequest(fetchRequest: Company.fetchRequest())
         
-        view.backgroundColor = .white
+        do {
+            try context.execute(batchDeleteReq)
+            companies.removeAll()
+            tableView.reloadData()
+        }
+        catch let delErr {
+            print("Failed to delete object from coe data \(delErr)")
+        }
         
-        // setting some basic stuff for tableView
-        tableView.backgroundColor = .darkBlue
-        //tableView.separatorStyle = .none
-        tableView.separatorColor = .white
-        tableView.tableFooterView = UIView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-        
-        // setting up Navigation Bar and Bar Item
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Companies", preferredLargeTitle: true)
     }
     
+    @objc private func handleAddCompany() {
+        let createCompanyController = CreateCompanyController()
+        let navController = CustomNavigationController(rootViewController: createCompanyController)
+        navController.modalPresentationStyle = .fullScreen
+        createCompanyController.createCompanyDelegate = self
+        
+        present(navController, animated: true, completion: nil)
+    }
     
-    @objc func handleAddCompany() {
+    private func editItem(indexPath: IndexPath, action: UIContextualAction, view: UIView) {
+        let company = self.companies[indexPath.row]
+        print("Attemping to Editing company : \(company.name ?? "")")
         
         let createCompanyController = CreateCompanyController()
+        createCompanyController.company = company
+        createCompanyController.createCompanyDelegate = self
         
         let navController = CustomNavigationController(rootViewController: createCompanyController)
         navController.modalPresentationStyle = .fullScreen
         
-        createCompanyController.createCompanyDelegate = self
-        
         present(navController, animated: true, completion: nil)
-        
     }
+    
+    
     
     /* TableView Setup Start */
     
@@ -116,13 +150,14 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
                 print("Failed to Delete Companies:", deleteErr)
             }
         }
+        deleteItem.backgroundColor = .lightRed
         
-        let editItem = UIContextualAction(style: .normal , title: "Edit") { (action, view, boolean) in
-            let company = self.companies[indexPath.row]
-            print("Attemping to deleting company : \(company.name ?? "")")
+        let edit = UIContextualAction(style: .normal , title: "Edit") { (action, view, boolean) in
+            self.editItem(indexPath: indexPath, action: action, view: view)
         }
+        edit.backgroundColor = .darkBlue
         
-        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, edit])
         return swipeActions
     }
     
@@ -137,6 +172,24 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         cell.textLabel?.text = company.name
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        if let name = company.name, let founded = company.founded {
+            
+            let dateFormater = DateFormatter()
+            dateFormater.dateFormat = "MMM dd, yyyy"
+            let foundedDateString = dateFormater.string(from: founded)
+            
+            let dateString = "\(name) - Founded: \(foundedDateString)"
+            cell.textLabel?.text = dateString
+        }
+        else {
+            cell.textLabel?.text = company.name
+        }
+        cell.imageView?.image = #imageLiteral(resourceName: "select_photo_empty")
+        
+        if let imgData = company.imageData {
+            cell.imageView?.image = UIImage(data: imgData)
+        }
         
         return cell
     }

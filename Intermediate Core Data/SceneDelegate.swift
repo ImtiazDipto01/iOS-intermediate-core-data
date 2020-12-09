@@ -8,12 +8,25 @@
 
 import UIKit
 
-class  CustomNavigationController : UINavigationController {
-    
+
+/**
+ * This class is created for setting up Navigation Controller status bar light content
+ */
+class CustomNavigationController : UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle{
         return .lightContent
     }
 }
+
+
+/**
+ * This extension for setting up image picker controller status bar into color light content
+ */
+/*extension UINavigationController {
+    open override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
+    }
+}*/
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

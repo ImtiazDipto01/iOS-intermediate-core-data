@@ -1,8 +1,8 @@
 //
-//  UIColor+theme.swift
+//  UIColor+Theme.swift
 //  Intermediate Core Data
 //
-//  Created by Imtiaz Uddin Ahmed on 2/11/20.
+//  Created by Imtiaz Uddin Ahmed on 30/12/20.
 //  Copyright © 2020 Imtiaz. All rights reserved.
 //
 

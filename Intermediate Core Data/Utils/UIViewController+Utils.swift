@@ -1,12 +1,11 @@
 //
-//  UIViewControllerConfig.swift
+//  UIViewController+Utils.swift
 //  Intermediate Core Data
 //
-//  Created by Imtiaz Uddin Ahmed on 8/11/20.
+//  Created by Imtiaz Uddin Ahmed on 30/12/20.
 //  Copyright © 2020 Imtiaz. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 extension UIViewController {
@@ -15,7 +14,7 @@ extension UIViewController {
      * Here, we're configuring navigationBar
      * Tip: Before configuring navigation bar, Please setup the Navigation Controller into [SceneDelegate]
      */
-    func  configureNavigationBar(largeTitleColor: UIColor, backgoundColor: UIColor, tintColor: UIColor, title: String, preferredLargeTitle: Bool) {
+    func setUpNavigationBar(largeTitleColor: UIColor, backgoundColor: UIColor, tintColor: UIColor, title: String, preferredLargeTitle: Bool) {
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithOpaqueBackground()
@@ -39,5 +38,14 @@ extension UIViewController {
             navigationController?.navigationBar.prefersLargeTitles = preferredLargeTitle
             navigationItem.title = title
         }
+    }
+    
+    
+    func setUpCancleButtonIntoNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancle", style: .plain, target: self, action: #selector(handleCancle))
+    }
+    
+    @objc func handleCancle() {
+        dismiss(animated: true, completion: nil)
     }
 }

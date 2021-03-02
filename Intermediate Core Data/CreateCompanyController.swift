@@ -96,10 +96,10 @@ class CreateCompanyController: UIViewController, UINavigationControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancle", style: .plain, target: self, action: #selector(handleCancle))
+        setUpCancleButtonIntoNavigationBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
         
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Create Company", preferredLargeTitle: true)
+        setUpNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Create Company", preferredLargeTitle: true)
         
         view.backgroundColor = .darkBlue
         
@@ -113,9 +113,6 @@ class CreateCompanyController: UIViewController, UINavigationControllerDelegate,
         companyImageView.clipsToBounds = true
     }
     
-    @objc func handleCancle() {
-        dismiss(animated: true, completion: nil)
-    }
     
     @objc func handleSave() {
         company == nil ? createCompany() : saveCompanyChanges()

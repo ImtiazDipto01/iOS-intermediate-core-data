@@ -60,6 +60,20 @@ class CreateEmployeeVC: UIViewController {
     }()
     
     
+    let employeeTypeSegmentControl: UISegmentedControl =  {
+        let types = [
+            EmployeeType.Executive.rawValue,
+            EmployeeType.SeniorManager.rawValue,
+            EmployeeType.Staff.rawValue
+        ]
+        let sc = UISegmentedControl(items: types)
+        sc.selectedSegmentIndex = 0
+        sc.tintColor = UIColor.darkBlue
+        return sc
+        
+    }()
+    
+    
     // MARK: -  Local Variables
     var delegate: CreateEmployeeDelegate?
     var company: Company?
@@ -72,8 +86,8 @@ class CreateEmployeeVC: UIViewController {
         view.backgroundColor = .darkBlue
         
         setUpCancleButtonIntoNavigationBar()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-        setUpNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Create Employee", preferredLargeTitle: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
+        setUpNavigationBar(largeTitleColor: .white, backgoundColor: .lightRed, tintColor: .white, title: "Create Employee", preferredLargeTitle:true)
         
         setupUI()
     }
@@ -88,7 +102,11 @@ class CreateEmployeeVC: UIViewController {
         if(isCreateEmployeeValidationSucess(employeeName: employeeName, birthDayDate: date)) {
             let birthDayDate = getBirthDayDate(date: date)
             
-            let tuple = CoreDataManager.shared.createEmployee(name: employeeName, birthDayDate: birthDayDate!, company: company)
+            guard let employeeType = employeeTypeSegmentControl.titleForSegment(at: employeeTypeSegmentControl.selectedSegmentIndex) else {
+                return
+            }
+            
+            let tuple = CoreDataManager.shared.createEmployee(name: employeeName, birthDayDate: birthDayDate!, type: employeeType, company: company)
             
             if let err = tuple.1 {
                 print(err)
@@ -148,7 +166,7 @@ class CreateEmployeeVC: UIViewController {
      
     private func setupUI() {
         view.addSubview(lightBackgroundView)
-        lightBackgroundView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 100)
+        lightBackgroundView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 150)
         
         lightBackgroundView.addSubview(employeeNameLabel)
         employeeNameLabel.anchor(top: lightBackgroundView.topAnchor, left: lightBackgroundView.leftAnchor, paddingLeft: 16, width: 100, height: 50)
@@ -161,5 +179,9 @@ class CreateEmployeeVC: UIViewController {
         
         lightBackgroundView.addSubview(employeeBirthdayTextField)
         employeeBirthdayTextField.anchor(top: employeeNameTextField.bottomAnchor, left: employeeBirthdayLabel.rightAnchor, bottom: employeeBirthdayLabel.bottomAnchor, right: lightBackgroundView.rightAnchor)
+        
+        lightBackgroundView.addSubview(employeeTypeSegmentControl)
+        employeeTypeSegmentControl.anchor(top: employeeBirthdayLabel.bottomAnchor, left: lightBackgroundView.leftAnchor, right: lightBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 16,  paddingRight: 16, height: 34)
+        
     }
 }

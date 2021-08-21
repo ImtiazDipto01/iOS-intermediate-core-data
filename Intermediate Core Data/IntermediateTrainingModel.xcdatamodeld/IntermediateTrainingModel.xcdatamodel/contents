@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Address" representedClassName="Address" syncable="YES" codeGenerationType="class">
         <attribute name="city" optional="YES" attributeType="String"/>
         <attribute name="state" optional="YES" attributeType="String"/>
@@ -14,6 +14,7 @@
     </entity>
     <entity name="Employee" representedClassName="Employee" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="address" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Address" inverseName="employee" inverseEntity="Address"/>
         <relationship name="company" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Company" inverseName="employees" inverseEntity="Company"/>
         <relationship name="employeeInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmployeeInformation" inverseName="employee" inverseEntity="EmployeeInformation"/>
@@ -29,7 +30,7 @@
     <elements>
         <element name="Address" positionX="559.37890625" positionY="-151.2109375" width="128" height="103"/>
         <element name="Company" positionX="38.29296875" positionY="-7" width="128" height="103"/>
-        <element name="Employee" positionX="298.43359375" positionY="-5.08203125" width="128" height="103"/>
+        <element name="Employee" positionX="298.43359375" positionY="-5.08203125" width="128" height="104"/>
         <element name="EmployeeInformation" positionX="572.44921875" positionY="60.1640625" width="128" height="88"/>
         <element name="Shops" positionX="256.39453125" positionY="-156.34765625" width="128" height="58"/>
     </elements>

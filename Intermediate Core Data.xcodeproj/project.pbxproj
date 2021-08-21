@@ -20,6 +20,7 @@
 		F371CFF8259F3BD90082A1A8 /* CreateEmployeeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F371CFF7259F3BD90082A1A8 /* CreateEmployeeVC.swift */; };
 		F371CFFA259F3FC20082A1A8 /* EmployessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F371CFF9259F3FC20082A1A8 /* EmployessVC.swift */; };
 		F373920E2587DC03006BF2C6 /* CompanyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F373920D2587DC03006BF2C6 /* CompanyCell.swift */; };
+		F39D451426CBE0060078CC3B /* EmployeeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39D451326CBE0060078CC3B /* EmployeeType.swift */; };
 		F3B3F7DF255861C600DA5B11 /* CreateCompanyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3F7DE255861C600DA5B11 /* CreateCompanyController.swift */; };
 		F3B3F7E22562DB4100DA5B11 /* IntermediateTrainingModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3B3F7E02562DB4100DA5B11 /* IntermediateTrainingModel.xcdatamodeld */; };
 		F3CE948B25D41E41007F5F40 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CE948A25D41E41007F5F40 /* CoreDataManager.swift */; };
@@ -42,6 +43,7 @@
 		F371CFF7259F3BD90082A1A8 /* CreateEmployeeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeVC.swift; sourceTree = "<group>"; };
 		F371CFF9259F3FC20082A1A8 /* EmployessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployessVC.swift; sourceTree = "<group>"; };
 		F373920D2587DC03006BF2C6 /* CompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyCell.swift; sourceTree = "<group>"; };
+		F39D451326CBE0060078CC3B /* EmployeeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeType.swift; sourceTree = "<group>"; };
 		F3B3F7DE255861C600DA5B11 /* CreateCompanyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCompanyController.swift; sourceTree = "<group>"; };
 		F3B3F7E12562DB4100DA5B11 /* IntermediateTrainingModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IntermediateTrainingModel.xcdatamodel; sourceTree = "<group>"; };
 		F3CE948A25D41E41007F5F40 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		F371CFEE259BBD3B0082A1A8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F39D451626CBE0440078CC3B /* enums */,
 				F371CFEF259BBE620082A1A8 /* UIColor+Theme.swift */,
 				F371CFF1259BBEB60082A1A8 /* UIViewController+Utils.swift */,
 				F3D5686F25A712C700AD455C /* UIView+Utils.swift */,
@@ -122,6 +125,14 @@
 				F371CFEA2593AF8D0082A1A8 /* CompaniesController+UITableView.swift */,
 			);
 			path = Companies;
+			sourceTree = "<group>";
+		};
+		F39D451626CBE0440078CC3B /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				F39D451326CBE0060078CC3B /* EmployeeType.swift */,
+			);
+			path = enums;
 			sourceTree = "<group>";
 		};
 		F3CE948925D414E0007F5F40 /* CoreData */ = {
@@ -207,6 +218,7 @@
 				F371CFEB2593AF8D0082A1A8 /* CompaniesController+UITableView.swift in Sources */,
 				F3D5687025A712C700AD455C /* UIView+Utils.swift in Sources */,
 				F3B3F7DF255861C600DA5B11 /* CreateCompanyController.swift in Sources */,
+				F39D451426CBE0060078CC3B /* EmployeeType.swift in Sources */,
 				F373920E2587DC03006BF2C6 /* CompanyCell.swift in Sources */,
 				F3113451254E028400E02860 /* AppDelegate.swift in Sources */,
 				F371CFE92593AC410082A1A8 /* CompaniesController+CreateCompanyDelegate.swift in Sources */,
